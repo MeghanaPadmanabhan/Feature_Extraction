@@ -216,7 +216,7 @@ def main(args):
     writer = SummaryWriter(logdir=args.output_dir)
 
     # Initialize the basic model for this run.
-    model_ft, input_size = initialize_model(args.model_name, args.num_classes, args.feature_extract)
+    model_ft, input_size = initialize_model(args.model_name, args.num_classes_orig, args.feature_extract)
     if args.feature_extract:
         params_to_update = []
         for name, param in model_ft.named_parameters():
@@ -235,7 +235,7 @@ def main(args):
     model_checkpoint = torch.load(args.restore, map_location=args.device)
     model_ft.load_state_dict(model_checkpoint['state_dict'])
 
-    model_ft.classifier = nn.Linear(model_ft.classifier.in_features, out_features=17)
+    model_ft.classifier = nn.Linear(model_ft.classifier.in_features, out_features=args.num_classes_final)
     args.step = model_checkpoint['global_step']
     optimizer_ft = torch.optim.Adam(model_ft.parameters(), lr=0.001)
 
@@ -266,7 +266,8 @@ if __name__ == "__main__":
     parser.add_argument('--model_name', type=str, default='densenet', help='model name for network training')
     parser.add_argument('--data_dir', type=str, default='', help='data containing the pretraining folder')
     parser.add_argument('--output_dir', type=str, default='/home/cougarnet.uh.edu/mpadmana/PycharmProjects/glomerulus_classification/save/openi_feature_extraction_results_4')
-    parser.add_argument('--num_classes', type=int, default= 5, help='Number of classes/ units in the output layer')
+    parser.add_argument('--num_classes_orig', type=int, default= 5, help='Number of classes/ units in the output layer')
+    parser.add_argument('--num_classes_final', type=int, default= 17, help='Number of classes/ units in the output layer')
     parser.add_argument('--batch_size', type=int, default= 16, help='Batch size')
     parser.add_argument('--n_epochs', type=int, default= 30, help='Number of epochs')
     parser.add_argument('--feature_extract', type=bool, default= True, help='True if you want feature extraction, false if you want finetuning')
