@@ -2,7 +2,7 @@
 This code performs feature extraction in Pytorch to allow to load pretrained models, remove final layers from the pretrained network and train them to fine tune for new dataset.
 This code uses pretrained Chexpert model and retrains the final layers of the model on OpenI chest X ray dataset.
 <p>
-Also performs data augmentation, where the number of augmentation steps is dependent on the distribution of the class(number of patients in that class) since the data is unbalanced.  For example, if there are 100 images representing a class (B) and 100 images representing the best represented class (A), then each image of class B is augmented 10 times and fed into network before training.</p>
+Also performs data augmentation, where the number of augmentation steps is dependent on the distribution of the class(number of patients in that class) since the data is unbalanced.  For example, if there are 100 images representing a class (B) and 1000 images representing the best represented class (A), then each image of class B is augmented 10 times and fed into network before training.</p>
   <b> Arguments that need to be changed </b>
   <ul>
     <li> num_classes_orig: The number of output units/ classes in the original trained network.</li>
